@@ -21,8 +21,8 @@ class DHCPMetricsDataSource:
     @staticmethod
     def metric_records(router_entry, *, metric_labels = [], add_router_id = True):
         try:
-            #dhcp_lease_records = router_entry.api_connection.router_api().get_resource('/ip/dhcp-server/lease').get(status='bound')
-            dhcp_lease_records = router_entry.api_connection.router_api().get_resource('/ip/dhcp-server/lease').call('print', {'active':''})
+            dhcp_lease_records = router_entry.api_connection.router_api().get_resource('/ip/dhcp-server/lease').get(status='bound')
+            #dhcp_lease_records = router_entry.api_connection.router_api().get_resource('/ip/dhcp-server/lease').call('print', {'active':''})
 
             # translation rules
             translation_table = {}
@@ -37,7 +37,7 @@ class DHCPMetricsDataSource:
 
             return BaseDSProcessor.trimmed_records(router_entry, router_records = dhcp_lease_records, metric_labels = metric_labels, add_router_id = add_router_id, translation_table = translation_table)
         except Exception as exc:
-            print(f'Error getting dhcp info from router{router_entry.router_name}@{router_entry.config_entry.hostname}: {exc}')
+            print(f'Error getting dhcp info from router - {router_entry.router_name}@{router_entry.config_entry.hostname}: {exc}')
             return None
 
 
